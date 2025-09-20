@@ -1,5 +1,5 @@
 // API configuration and base functions
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = 'https://peertrade-backend.onrender.com/api';
 
 // Helper function for making API requests
 const fetchApi = async (endpoint, options = {}) => {
@@ -53,6 +53,10 @@ export const authApi = {
   },
 };
 
+// Auth API services direct exports
+export const login = authApi.login;
+export const register = authApi.register;
+
 // Items API services
 export const itemsApi = {
   getAllItems: async () => {
@@ -60,6 +64,10 @@ export const itemsApi = {
   },
   
   getItemById: async (id) => {
+    return fetchApi(`/items/${id}`);
+  },
+  
+  getItem: async (id) => {
     return fetchApi(`/items/${id}`);
   },
   
@@ -83,6 +91,10 @@ export const itemsApi = {
     });
   },
 };
+
+// Items API services direct exports
+export const getItem = itemsApi.getItem;
+export const getItems = itemsApi.getAllItems;
 
 export default {
   auth: authApi,

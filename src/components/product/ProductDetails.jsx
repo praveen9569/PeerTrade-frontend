@@ -78,22 +78,12 @@ const ProductDetails = () => {
   };
 
   useEffect(() => {
-    const fetchProductDetails = async () => {
-      try {
-        setLoading(true);
-        const data = await itemsApi.getItemById(id);
-        setProduct(data);
-        setError(null);
-      } catch (err) {
-        console.error('Error fetching product details:', err);
-        setError('Failed to load product details. Using placeholder data instead.');
-        setProduct(placeholderProducts[id] || placeholderProducts[1]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProductDetails();
+    // In a real app, you would fetch from the backend
+    // fetch(`http://localhost:5000/api/items/${id}`)
+    setTimeout(() => {
+      setProduct(placeholderProducts[id] || placeholderProducts[1]);
+      setLoading(false);
+    }, 800);
   }, [id]);
 
   if (loading) {

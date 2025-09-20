@@ -1,53 +1,71 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import './App.css';
-import AuthForm from './components/auth/AuthForm';
+import './index.css';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 import Dashboard from './components/dashboard/Dashboard';
-import ProductDetails from './components/product/ProductDetails';
-import UserProfile from './components/profile/UserProfile';
-import Navigation from './components/layout/Navigation';
+import ProductDetail from './components/product/ProductDetail';
+import ProductList from './components/product/ProductList';
+import ProductForm from './components/product/ProductForm';
+import Profile from './components/profile/Profile';
+import Chat from './components/chat/Chat';
+import Conversations from './components/chat/Conversations';
+import Layout from './components/layout/Layout';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
-
-  // Check for existing token on initial load
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsLoggedIn(true);
+  // Protected route component
+  const ProtectedRoute = ({ children }) => {
+    const isAuthenticated = localStorage.getItem('token') !== null;
+    
+    if (!isAuthenticated) {
+      return <Navigate to="/login" replace />;
     }
-  }, []);
-
-  const handleAuthSuccess = () => {
-    setIsLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
+    
+    return children;
   };
 
   return (
     <Router>
-      <div className="App">
-        {isLoggedIn && <Navigation onLogout={handleLogout} />}
-        <Routes>
-          {isLoggedIn ? (
-            <>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/product/:id" element={<ProductDetails />} />
-              <Route path="/profile" element={<UserProfile />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </>
-          ) : (
-            <>
-              <Route path="/" element={<AuthForm isLogin={isLogin} setIsLogin={setIsLogin} onAuthSuccess={handleAuthSuccess} />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </>
-          )}
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          {/* Public routes */}
+          <Route index element={<Dashboard />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="products" element={<ProductList />} />
+          <Route path="products/:id" element={<ProductDetail />} />
+          <Route path="products/new" element={
+            <ProtectedRoute>
+              <ProductForm />
+            </ProtectedRoute>
+          } />
+          
+          {/* Protected routes */}
+          <Route path="profile" element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          } />
+          <Route path="dashboard" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="messages" element={
+            <ProtectedRoute>
+              <Conversations />
+            </ProtectedRoute>
+          } />
+          <Route path="chat/:userId" element={
+            <ProtectedRoute>
+              <Chat />
+            </ProtectedRoute>
+          } />
+          
+          {/* Fallback route */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
     </Router>
   );
 }

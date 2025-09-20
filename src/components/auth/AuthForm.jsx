@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { FaUser, FaLock, FaEnvelope, FaBook, FaCalendarAlt, FaPhone } from 'react-icons/fa';
-import { authApi } from '../../services/api';
 
 const AuthForm = ({ isLogin, setIsLogin, onAuthSuccess }) => {
   const [formData, setFormData] = useState({ email: '', password: '', name: '', course: '', year: '', contactInfo: '' });
@@ -16,40 +15,47 @@ const AuthForm = ({ isLogin, setIsLogin, onAuthSuccess }) => {
     setLoading(true);
     setError(null);
 
-    try {
+    // For demo purposes, simulate successful login/registration
+    setTimeout(() => {
       if (isLogin) {
-        // Login with real API
-        const credentials = { 
-          email: formData.email, 
-          password: formData.password 
-        };
-        
-        const data = await authApi.login(credentials);
-        
-        if (data.token) {
-          localStorage.setItem('token', data.token);
-          onAuthSuccess();
-        }
+        localStorage.setItem('token', 'demo-token-12345');
+        onAuthSuccess();
       } else {
-        // Register with real API
-        const userData = {
-          email: formData.email,
-          password: formData.password,
-          name: formData.name,
-          course: formData.course,
-          year: formData.year,
-          contactInfo: formData.contactInfo
-        };
-        
-        await authApi.register(userData);
-        setIsLogin(true); // Switch to login form after successful registration
+        setIsLogin(true);
+      }
+      setLoading(false);
+    }, 1500);
+
+    // Uncomment for actual API integration
+    /*
+    const endpoint = isLogin ? 'http://localhost:5000/api/auth/login' : 'http://localhost:5000/api/auth/register';
+    const body = isLogin ? { email: formData.email, password: formData.password } : formData;
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Something went wrong.');
+      }
+
+      console.log('Success:', data);
+
+      if (isLogin && data.token) {
+        localStorage.setItem('token', data.token);
+        onAuthSuccess();
       }
     } catch (err) {
-      console.error('Authentication error:', err);
-      setError(err.message || 'Authentication failed. Please try again.');
+      console.error('Error:', err);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
+    */
   };
 
   return (

@@ -16,8 +16,7 @@ class SocketService {
       return;
     }
 
-    this.socketUrl = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
-    this.socket = io(this.socketUrl, {
+    this.socket = io('https://peertrade-backend.onrender.com', {
       auth: { token },
       transports: ['websocket'],
       reconnection: true,
