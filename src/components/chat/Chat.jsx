@@ -20,6 +20,46 @@ const Chat = () => {
       return;
     }
 
+    // For demo purposes, load mock conversation data
+    const mockMessages = [
+      {
+        id: '1',
+        text: 'Hi there! I\'m interested in your laptop.',
+        senderId: 'user1',
+        recipientId: userId || 'user2',
+        timestamp: new Date(Date.now() - 3600000).toISOString()
+      },
+      {
+        id: '2',
+        text: 'Hello! Yes, it\'s still available.',
+        senderId: userId || 'user2',
+        recipientId: 'user1',
+        timestamp: new Date(Date.now() - 3000000).toISOString()
+      },
+      {
+        id: '3',
+        text: 'Great! Is the price negotiable?',
+        senderId: 'user1',
+        recipientId: userId || 'user2',
+        timestamp: new Date(Date.now() - 2400000).toISOString()
+      }
+    ];
+    
+    const mockRecipient = {
+      id: 'user1',
+      name: 'John Doe',
+      avatar: 'https://via.placeholder.com/40'
+    };
+    
+    // Simulate loading delay
+    setTimeout(() => {
+      setMessages(mockMessages);
+      setRecipientInfo(mockRecipient);
+      setLoading(false);
+    }, 800);
+
+    // Uncomment this when real backend is available
+    /*
     // Connect to socket
     socketService.connect();
 
@@ -41,6 +81,7 @@ const Chat = () => {
     return () => {
       socketService.disconnect();
     };
+    */
   }, [userId, navigate]);
 
   // Scroll to bottom when messages change
@@ -52,8 +93,43 @@ const Chat = () => {
     e.preventDefault();
     if (!newMessage.trim()) return;
 
-    socketService.sendMessage(userId, newMessage);
+    // For demo purposes, simulate sending a message
+    const currentUser = JSON.parse(localStorage.getItem('user')) || { id: 'user2' };
+    
+    const newMessageObj = {
+      id: Date.now().toString(),
+      text: newMessage,
+      senderId: currentUser.id,
+      recipientId: userId || 'user1',
+      timestamp: new Date().toISOString()
+    };
+    
+    // Add message to the conversation
+    setMessages(prevMessages => [...prevMessages, newMessageObj]);
     setNewMessage('');
+    
+    // Simulate reply after 1 second
+    setTimeout(() => {
+      const replyMessage = {
+        id: (Date.now() + 1).toString(),
+        text: 'Thanks for your message! I\'ll get back to you soon.',
+        senderId: userId || 'user1',
+        recipientId: currentUser.id,
+        timestamp: new Date().toISOString()
+      };
+      setMessages(prevMessages => [...prevMessages, replyMessage]);
+    }, 1000);
+
+    // Uncomment this when real backend is available
+    /*
+    const messageData = {
+      text: newMessage,
+      recipientId: userId
+    };
+
+    socketService.sendMessage(messageData);
+    setNewMessage('');
+    */
   };
 
   if (loading) {
@@ -121,7 +197,7 @@ const Chat = () => {
                       : 'bg-neutral-light dark:bg-neutral-dark rounded-tl-none'
                   }`}
                 >
-                  <p>{msg.message}</p>
+                  <p>{msg.text}</p>
                   <span className={`text-xs ${isSentByMe ? 'text-white/70' : 'text-neutral-dark/70 dark:text-neutral-light/70'}`}>
                     {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>

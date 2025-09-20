@@ -38,6 +38,19 @@ const ProductForm = () => {
         return;
       }
 
+      // For demo purposes, simulate successful product creation
+      // In a real implementation, this would send data to the backend
+      console.log('Product data submitted:', formData);
+      
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Navigate to products page after successful submission
+      navigate('/products');
+      return;
+
+      // The code below would be used with a real backend
+      /*
       // Create form data for file upload
       const productData = new FormData();
       productData.append('title', formData.title);
@@ -50,7 +63,9 @@ const ProductForm = () => {
       formData.images.forEach(image => {
         productData.append('images', image);
       });
+      */
 
+      /* 
       const response = await fetch('https://peertrade-backend.onrender.com/api/products', {
         method: 'POST',
         headers: {
@@ -66,6 +81,7 @@ const ProductForm = () => {
 
       const data = await response.json();
       navigate(`/products/${data._id}`);
+      */
     } catch (err) {
       setError(err.message || 'An error occurred while creating the product');
     } finally {

@@ -27,7 +27,9 @@ const Dashboard = ({ onLogout }) => {
       try {
         setLoading(true);
         const data = await itemsApi.getAllItems();
-        setItems(data);
+        // Check if data has an items property (from our mock API) or is an array directly
+        const itemsArray = data.items || data;
+        setItems(Array.isArray(itemsArray) ? itemsArray : []);
         setError(null);
       } catch (err) {
         console.error('Error fetching items:', err);
@@ -170,9 +172,9 @@ const Dashboard = ({ onLogout }) => {
                       <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-1">
                           <div className="w-6 h-6 rounded-full bg-teal-600 flex items-center justify-center text-xs text-white font-medium">
-                            {item.seller.charAt(0)}
+                            {item.seller && typeof item.seller === 'object' ? item.seller.name.charAt(0) : (typeof item.seller === 'string' ? item.seller.charAt(0) : '?')}
                           </div>
-                          <span className="text-xs text-gray-400">{item.seller}</span>
+                          <span className="text-xs text-gray-400">{item.seller && typeof item.seller === 'object' ? item.seller.name : item.seller}</span>
                         </div>
                         <div className="flex items-center">
                           <span className="text-yellow-400 mr-1">★</span>

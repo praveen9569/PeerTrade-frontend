@@ -25,14 +25,14 @@ const Navbar = () => {
     <nav className="bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          <div className="flex">
+          <div className="flex flex-1">
             <div className="flex-shrink-0 flex items-center">
               <Link to="/" className="flex items-center">
                 <img src="/logo.svg" alt="CollegeSwap Logo" className="h-8 w-auto" />
                 <span className="ml-2 text-xl font-bold text-primary">CollegeSwap</span>
               </Link>
             </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+            <div className="hidden sm:ml-6 sm:flex sm:space-x-4">
               <Link to="/" className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-text-light dark:text-text-dark hover:border-primary">
                 Home
               </Link>

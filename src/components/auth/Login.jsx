@@ -22,12 +22,25 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await login(formData);
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user));
+      // For demo purposes, simulate successful login
+      // Comment this out when real backend is available
+      const mockResponse = {
+        token: 'mock-jwt-token',
+        user: { id: '1', name: 'Demo User', email: formData.email }
+      };
+      
+      localStorage.setItem('token', mockResponse.token);
+      localStorage.setItem('user', JSON.stringify(mockResponse.user));
+      
+      // Uncomment this when real backend is available
+      // const response = await login(formData);
+      // localStorage.setItem('token', response.token);
+      // localStorage.setItem('user', JSON.stringify(response.user));
+      
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to login. Please try again.');
+      console.error('Login error:', err);
+      setError('Failed to login. Please try again.');
     } finally {
       setLoading(false);
     }

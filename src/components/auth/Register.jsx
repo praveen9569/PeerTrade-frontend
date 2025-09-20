@@ -32,13 +32,31 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const { confirmPassword, ...registerData } = formData;
-      const response = await register(registerData);
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user));
+      // For demo purposes, simulate successful registration
+      // Comment this out when real backend is available
+      const mockResponse = {
+        token: 'mock-jwt-token',
+        user: { 
+          id: '1', 
+          name: formData.name, 
+          email: formData.email,
+          course: formData.course
+        }
+      };
+      
+      localStorage.setItem('token', mockResponse.token);
+      localStorage.setItem('user', JSON.stringify(mockResponse.user));
+      
+      // Uncomment this when real backend is available
+      // const { confirmPassword, ...registerData } = formData;
+      // const response = await register(registerData);
+      // localStorage.setItem('token', response.token);
+      // localStorage.setItem('user', JSON.stringify(response.user));
+      
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to register. Please try again.');
+      console.error('Registration error:', err);
+      setError('Failed to register. Please try again.');
     } finally {
       setLoading(false);
     }

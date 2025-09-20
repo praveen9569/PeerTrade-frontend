@@ -1,39 +1,76 @@
 // API configuration and base functions
 const API_BASE_URL = 'https://peertrade-backend.onrender.com/api';
 
-// Helper function for making API requests
-const fetchApi = async (endpoint, options = {}) => {
-  const token = localStorage.getItem('token');
-  
-  const defaultHeaders = {
-    'Content-Type': 'application/json',
-  };
-  
-  if (token) {
-    defaultHeaders['Authorization'] = `Bearer ${token}`;
-  }
-  
-  const config = {
-    ...options,
-    headers: {
-      ...defaultHeaders,
-      ...options.headers,
+// Mock data for development
+const MOCK_ITEMS = [
+  {
+    _id: '1',
+    title: 'MacBook Pro 2021',
+    description: 'Excellent condition, barely used. M1 Pro chip, 16GB RAM, 512GB SSD.',
+    price: 1200,
+    category: 'electronics',
+    condition: 'like-new',
+    images: ['https://via.placeholder.com/300'],
+    seller: {
+      _id: 'user1',
+      name: 'John Doe',
+      email: 'john@example.com'
     },
-  };
-  
-  try {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-    
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `API Error: ${response.status}`);
-    }
-    
-    return await response.json();
-  } catch (error) {
-    console.error('API request failed:', error);
-    throw error;
+    createdAt: '2023-09-15T10:30:00Z'
+  },
+  {
+    _id: '2',
+    title: 'Calculus Textbook',
+    description: 'Calculus: Early Transcendentals, 8th Edition. Some highlighting but otherwise in good condition.',
+    price: 45,
+    category: 'books',
+    condition: 'good',
+    images: ['https://via.placeholder.com/300'],
+    seller: {
+      _id: 'user2',
+      name: 'Jane Smith',
+      email: 'jane@example.com'
+    },
+    createdAt: '2023-09-10T14:20:00Z'
+  },
+  {
+    _id: '3',
+    title: 'Desk Lamp',
+    description: 'Adjustable LED desk lamp with multiple brightness settings and USB charging port.',
+    price: 25,
+    category: 'furniture',
+    condition: 'excellent',
+    images: ['https://via.placeholder.com/300'],
+    seller: {
+      _id: 'user1',
+      name: 'John Doe',
+      email: 'john@example.com'
+    },
+    createdAt: '2023-09-05T09:15:00Z'
   }
+];
+
+// Helper function for making API requests - now returns mock data
+const fetchApi = async (endpoint, options = {}) => {
+  console.log(`Mock API call to ${endpoint}`, options);
+  
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 500));
+  
+  // Return mock data based on endpoint
+  if (endpoint.startsWith('/items')) {
+    if (endpoint === '/items') {
+      return { items: MOCK_ITEMS };
+    } else {
+      const id = endpoint.split('/')[2];
+      const item = MOCK_ITEMS.find(item => item._id === id);
+      if (item) return item;
+      throw new Error('Item not found');
+    }
+  }
+  
+  // For other endpoints, just return success
+  return { success: true, message: 'Operation completed successfully' };
 };
 
 // Auth API services
