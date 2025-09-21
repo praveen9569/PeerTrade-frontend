@@ -32,10 +32,10 @@ const Login = () => {
       localStorage.setItem('token', mockResponse.token);
       localStorage.setItem('user', JSON.stringify(mockResponse.user));
       
-      // Uncomment this when real backend is available
-      // const response = await login(formData);
-      // localStorage.setItem('token', response.token);
-      // localStorage.setItem('user', JSON.stringify(response.user));
+      
+      const response = await login(formData);
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('user', JSON.stringify(response.user));
       
       navigate('/dashboard');
     } catch (err) {
