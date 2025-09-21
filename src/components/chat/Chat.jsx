@@ -20,7 +20,6 @@ const Chat = () => {
       return;
     }
 
-    // For demo purposes, load mock conversation data
     const mockMessages = [
       {
         id: '1',
@@ -58,8 +57,7 @@ const Chat = () => {
       setLoading(false);
     }, 800);
 
-    // Uncomment this when real backend is available
-    /*
+   
     // Connect to socket
     socketService.connect();
 
@@ -121,7 +119,7 @@ const Chat = () => {
     }, 1000);
 
     // Uncomment this when real backend is available
-    /*
+    
     const messageData = {
       text: newMessage,
       recipientId: userId
@@ -129,7 +127,7 @@ const Chat = () => {
 
     socketService.sendMessage(messageData);
     setNewMessage('');
-    */
+    
   };
 
   if (loading) {
