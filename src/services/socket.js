@@ -16,7 +16,7 @@ class SocketService {
       return;
     }
 
-    this.socket = io('https://peertrade-backend.onrender.com', {
+    this.socket = io('https://campus-swap-api.onrender.com', {
       auth: { token },
       transports: ['websocket'],
       reconnection: true,

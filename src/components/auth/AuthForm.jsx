@@ -27,7 +27,7 @@ const AuthForm = ({ isLogin, setIsLogin, onAuthSuccess }) => {
     }, 1500);
 
     // Uncomment for actual API integration
-    /*
+    
     const endpoint = isLogin ? 'http://localhost:5000/api/auth/login' : 'http://localhost:5000/api/auth/register';
     const body = isLogin ? { email: formData.email, password: formData.password } : formData;
 
@@ -55,7 +55,7 @@ const AuthForm = ({ isLogin, setIsLogin, onAuthSuccess }) => {
     } finally {
       setLoading(false);
     }
-    */
+    
   };
 
   return (

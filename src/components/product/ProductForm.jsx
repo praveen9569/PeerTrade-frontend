@@ -50,7 +50,7 @@ const ProductForm = () => {
       return;
 
       // The code below would be used with a real backend
-      /*
+      
       // Create form data for file upload
       const productData = new FormData();
       productData.append('title', formData.title);
@@ -63,10 +63,10 @@ const ProductForm = () => {
       formData.images.forEach(image => {
         productData.append('images', image);
       });
-      */
+      
 
-      /* 
-      const response = await fetch('https://peertrade-backend.onrender.com/api/products', {
+      
+      const response = await fetch('https://campus-swap-api.onrender.com', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -81,7 +81,7 @@ const ProductForm = () => {
 
       const data = await response.json();
       navigate(`/products/${data._id}`);
-      */
+      
     } catch (err) {
       setError(err.message || 'An error occurred while creating the product');
     } finally {

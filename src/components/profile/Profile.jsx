@@ -22,24 +22,16 @@ const Profile = () => {
       return;
     }
 
-    // Fetch user profile
-    fetch('https://peertrade-backend.onrender.com/api/users/profile', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch profile');
-        return res.json();
-      })
-      .then(data => {
-        setProfile(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
+    // Use mock data for demo purposes
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    setProfile({
+      name: user.name || 'Demo User',
+      email: user.email || 'demo@example.com',
+      phone: user.phone || '',
+      college: user.course || 'Computer Science',
+      bio: user.bio || 'This is a demo profile. Update your information here!'
+    });
+    setLoading(false);
   }, [navigate]);
 
   const handleChange = (e) => {
@@ -51,30 +43,19 @@ const Profile = () => {
     e.preventDefault();
     setLoading(true);
 
-    const token = localStorage.getItem('token');
-    fetch('https://peertrade-backend.onrender.com/api/users/profile', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(profile)
-    })
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to update profile');
-        return res.json();
-      })
-      .then(data => {
-        setProfile(data);
-        setIsEditing(false);
-        setSuccessMessage('Profile updated successfully!');
-        setTimeout(() => setSuccessMessage(''), 3000);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
+    // Simulate API call with mock data
+    setTimeout(() => {
+      // Update localStorage with new profile data
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const updatedUser = { ...user, ...profile };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      
+      setProfile(profile);
+      setIsEditing(false);
+      setSuccessMessage('Profile updated successfully!');
+      setTimeout(() => setSuccessMessage(''), 3000);
+      setLoading(false);
+    }, 500);
   };
 
   if (loading) {

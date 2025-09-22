@@ -59,7 +59,7 @@ const Chat = () => {
     }, 800);
 
     // Uncomment this when real backend is available
-    /*
+    
     // Connect to socket
     socketService.connect();
 
@@ -81,7 +81,7 @@ const Chat = () => {
     return () => {
       socketService.disconnect();
     };
-    */
+    
   }, [userId, navigate]);
 
   // Scroll to bottom when messages change
@@ -121,7 +121,7 @@ const Chat = () => {
     }, 1000);
 
     // Uncomment this when real backend is available
-    /*
+    
     const messageData = {
       text: newMessage,
       recipientId: userId
@@ -129,7 +129,7 @@ const Chat = () => {
 
     socketService.sendMessage(messageData);
     setNewMessage('');
-    */
+    
   };
 
   if (loading) {
