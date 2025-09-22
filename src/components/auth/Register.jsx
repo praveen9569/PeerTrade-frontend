@@ -47,11 +47,11 @@ const Register = () => {
       localStorage.setItem('token', mockResponse.token);
       localStorage.setItem('user', JSON.stringify(mockResponse.user));
       
-      
-      const { confirmPassword, ...registerData } = formData;
-      const response = await register(registerData);
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user));
+      // Uncomment this when real backend is available
+      // const { confirmPassword, ...registerData } = formData;
+      // const response = await register(registerData);
+      // localStorage.setItem('token', response.token);
+      // localStorage.setItem('user', JSON.stringify(response.user));
       
       navigate('/dashboard');
     } catch (err) {

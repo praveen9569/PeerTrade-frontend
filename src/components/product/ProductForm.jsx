@@ -63,10 +63,15 @@ const ProductForm = () => {
       formData.images.forEach(image => {
         productData.append('images', image);
       });
+<<<<<<< HEAD
       
 
       
       const response = await fetch('https://campus-swap-api.onrender.com', {
+=======
+  
+      const response = await fetch('https://peertrade-backend.onrender.com/api/products', {
+>>>>>>> 79d6fdf47590e26a236114a95b2f57d92a8d3e5f
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
